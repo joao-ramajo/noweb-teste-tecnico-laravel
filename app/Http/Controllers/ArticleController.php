@@ -5,26 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ArticleController\ArticleStoreRequest;
 use App\Http\Requests\ArticleController\ArticleUpdateRequest;
 use App\Http\Resources\ArticleResource;
-use App\Models\Article;
 use App\Services\ArticleService;
 use App\Services\LogService;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+
 
 class ArticleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
     public function __construct(
         private ArticleService $articleService,
         private LogService $logger
@@ -45,9 +37,6 @@ class ArticleController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(ArticleStoreRequest $request): ArticleResource | JsonResponse
     {
         try{
@@ -63,9 +52,6 @@ class ArticleController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id): ArticleResource | JsonResponse
     {
         try{
@@ -85,9 +71,6 @@ class ArticleController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(ArticleUpdateRequest $request, string $id)
     {
         try{
@@ -121,9 +104,6 @@ class ArticleController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         try{
