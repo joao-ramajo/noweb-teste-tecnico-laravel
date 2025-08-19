@@ -74,7 +74,7 @@ class ArticleController extends Controller
                 ->json([
                     'message' => 'Noticia atualizada com sucesso.',
                     'data' => new ArticleResource($article)
-            ]);
+            ], 200);
         }catch(AuthorizationException $e){
             return response()
                 ->json([
@@ -88,6 +88,26 @@ class ArticleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try{
+            $article = Article::findOrFail($id);
+            Gate::authorize('delete', $article);
+
+            $article->delete();
+
+            return response()
+                ->json([
+                    'message' => 'Noticia apagada com sucesso.',
+            ], 200);
+        }catch(ModelNotFoundException $e){
+            return response()
+                ->json([
+                    'message' => 'Nenhuma notícia encontrada'
+                ], 200);
+        }catch(AuthorizationException $e){
+            return response()
+                ->json([
+                    'message' => 'Sem autorização para esta ação'
+                ], 403);
+        }
     }
 }
