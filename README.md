@@ -205,7 +205,7 @@ Authorization: Bearer <token>
 Accept: application/json
 ```
 
-O payload devolvido caso exista o registro.
+O payload devolvido caso exista o registro. 
 
 ```json
 {
@@ -222,7 +222,7 @@ O payload devolvido caso exista o registro.
 
 ### Criar notícia
 
-Para criar uma nova notícia você deve enviar a requisição para `POST /api/articles` com o seguinte payload.
+Para criar uma nova notícia você deve enviar a requisição para `POST /api/articles` com o seguinte payload. 
 
 ```json
 {
@@ -248,3 +248,36 @@ Após isso será registrado uma nova notícia no banco e irá retornar o seguint
 	"message": "Notícia criada com sucesso."
 }
 ```
+
+
+## Tabela de Rotas
+
+| Método    | Endpoint           | Autorização | Descrição               | Payload / Retorno                                |
+| --------- | ------------------ | ----------- | ----------------------- | ------------------------------------------------ |
+| POST      | /users             | Não         | Cadastra usuário        | `{name, email, password, password_confirmation}` |
+| POST      | /api/login         | Não         | Login e recebe token    | `{email, password}`                              |
+| GET       | /api/articles      | Sim         | Lista todas as notícias | Retorna array de articles                        |
+| GET       | /api/articles/{id} | Sim         | Busca uma notícia       | Retorna objeto article                           |
+| POST      | /api/articles      | Sim         | Cria nova notícia       | `{title, content}`                               |
+| PUT/PATCH | /api/articles/{id} | Sim         | Atualiza notícia        | `{title, content}`                               |
+| DELETE    | /api/articles/{id} | Sim         | Deleta notícia          | Mensagem de sucesso                              |
+
+## Testes
+
+Os testes foram feitos de maneira a testar o fluxo completo da aplicação, por se tratar de lógicas simples e sem grande necessidade de diversas regras de negocio, optei por desenvolver testes de integração.
+
+Para os requisitos do projeto adicionar camadas de complexidade maiores não faria sentido, assim causando um forte acoplamento com o Eloquent que já é testado pelo próprio Laravel, sendo assim testes de integração para garantir que o fluxo está funcionando faz muito mais sentidos do que diversos testes de unidade.
+
+### Como rodar os testes
+
+```
+php artisan test
+```
+
+
+### O que será testado
+
+- Cadastro de usuário
+- Login e geração de token
+- Criação, leitura, atualização e exclusão de notícias
+- Restrições de acesso via autenticação
