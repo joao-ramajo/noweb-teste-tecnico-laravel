@@ -22,8 +22,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|exists:users,email',
-            'password' => 'required'
+            'email' => 'required|email|exists:users,email|max:50',
+            'password' => 'required|max:12'
         ];
     }
 
@@ -33,7 +33,9 @@ class LoginRequest extends FormRequest
             'email.required' => 'O email é obrigatório.',
             'email.email' => 'O email deve estar em um formato válido',
             'email.exists' => 'Usuário ou senha incorretos',
-            'password.required' => 'A senha é obrigatória'
+            'email.max' => 'O email não pode passar de :max caracteres',
+            'password.required' => 'A senha é obrigatória',
+            'password.max' => 'A senha não deve conter mais que :max caracteres'
         ];
     }
 }

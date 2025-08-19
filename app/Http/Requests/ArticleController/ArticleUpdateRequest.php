@@ -22,7 +22,7 @@ class ArticleUpdateRequest extends FormRequest
         public function rules(): array
     {
         return [
-            'title' => 'required',
+            'title' => 'required|max:50',
             'content' => 'required'
         ];
     }
@@ -31,6 +31,7 @@ class ArticleUpdateRequest extends FormRequest
     {
         return [
             'title.required' => 'O titúlo é obrigatório',
+            'title.max' => 'O título não pode conter mais que :max caracteres',
             'content.required' => 'A notícia não pode estar vazia'
         ];
     }

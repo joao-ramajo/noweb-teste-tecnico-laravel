@@ -32,16 +32,16 @@ class UserStoreRequest extends FormRequest
     {
          return [
             'name.required' => 'O nome é obrigatório.',
-            'name.max' => 'O nome não pode ter mais de 50 caracteres.',
+            'name.max' => 'O nome não pode ter mais de :max caracteres.',
 
             'email.required' => 'O email é obrigatório.',
             'email.email' => 'O email deve ser válido.',
-            'email.max' => 'O email não pode ter mais de 50 caracteres.',
+            'email.max' => 'O email não pode ter mais de :max caracteres.',
             'email.unique' => 'Email não disponível.',
 
             'password.required' => 'A senha é obrigatória.',
-            'password.min' => 'A senha deve ter no mínimo 6 caracteres.',
-            'password.max' => 'A senha deve ter no máximo 12 caracteres.',
+            'password.min' => 'A senha deve ter no mínimo :min caracteres.',
+            'password.max' => 'A senha deve ter no máximo :max caracteres.',
             'password.confirmed' => 'As senhas devem ser iguais.',
             'password.regex' => 'A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um número.'
     ];

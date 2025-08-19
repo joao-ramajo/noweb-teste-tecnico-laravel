@@ -22,7 +22,7 @@ class ArticleStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|unique:articles,title',
+            'title' => 'required|unique:articles,title|max:50',
             'content' => 'required'
         ];
     }
@@ -32,7 +32,7 @@ class ArticleStoreRequest extends FormRequest
         return [
             'title.required' => 'O titúlo é obrigatório',
             'title.unique' => 'Este titúlo não está disponivel',
-
+            'title.max' => 'O título não pode conter mais que :max caracteres',
             'content.required' => 'A notícia não pode estar vazia'
         ];
     }
