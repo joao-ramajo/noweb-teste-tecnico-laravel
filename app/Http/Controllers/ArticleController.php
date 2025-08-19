@@ -102,7 +102,7 @@ class ArticleController extends Controller
             return response()
                 ->json([
                     'message' => 'Nenhuma notícia encontrada'
-                ], 200);
+                ], 404);
         }catch(AuthorizationException $e){
             return response()
                 ->json([
