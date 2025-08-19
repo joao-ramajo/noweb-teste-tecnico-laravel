@@ -91,24 +91,33 @@ class ArticleController extends Controller
     public function update(ArticleUpdateRequest $request, string $id)
     {
         try{
-            $article = Article::findOrFail($id);
+            $article = $this->articleService->findById($id);
+
             Gate::authorize('update', $article);
 
-            $article->title = $request->input('title');
-            $article->content = $request->input('content');
-
-            $article->save();
+            $updated = $this->articleService->update($article, $request);
 
             return response()
                 ->json([
                     'message' => 'Noticia atualizada com sucesso.',
-                    'data' => new ArticleResource($article)
+                    'data' => new ArticleResource($updated)
             ], 200);
+        }catch(ModelNotFoundException){
+            return response()
+                ->json([
+                    'message' => 'Nenhum registro encontrado'
+                ], 404);
         }catch(AuthorizationException $e){
             return response()
                 ->json([
                     'message' => 'Sem autorização para esta ação'
                 ], 403);
+        }catch(Exception $e){
+            $this->logger->error($e->getMessage());
+            return response()
+                ->json([
+                    'message' => 'Houve um erro interno no servidor, tente novamente mais tarde'
+                ], 500);
         }
     }
 
@@ -118,7 +127,7 @@ class ArticleController extends Controller
     public function destroy(string $id)
     {
         try{
-            $article = Article::findOrFail($id);
+            $article = $this->articleService->findById($id);
             Gate::authorize('delete', $article);
 
             $article->delete();
@@ -127,16 +136,22 @@ class ArticleController extends Controller
                 ->json([
                     'message' => 'Noticia apagada com sucesso.',
             ], 200);
-        }catch(ModelNotFoundException $e){
+        }catch(ModelNotFoundException){
             return response()
                 ->json([
                     'message' => 'Nenhuma notícia encontrada'
                 ], 404);
-        }catch(AuthorizationException $e){
+        }catch(AuthorizationException){
             return response()
                 ->json([
                     'message' => 'Sem autorização para esta ação'
                 ], 403);
+        }catch(Exception $e){
+            $this->logger->error($e->getMessage());
+            return response()
+                ->json([
+                    'message' => 'Houve um erro interno no servidor, tente novamente mais tarde'
+                ], 500);
         }
     }
 }

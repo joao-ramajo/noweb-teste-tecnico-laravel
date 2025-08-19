@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Requests\ArticleController\ArticleStoreRequest;
+use App\Http\Requests\ArticleController\ArticleUpdateRequest;
 use App\Models\Article;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -34,4 +35,16 @@ class ArticleService
 
         return $article;
     }
+
+    public function update(Article $article, ArticleUpdateRequest $request): Article
+    {
+        $article->title = $request->input('title');
+        $article->content = $request->input('content');
+
+        $article->save();
+
+        return $article;
+    }
+
+
 }
