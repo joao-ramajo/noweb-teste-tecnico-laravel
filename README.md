@@ -82,7 +82,7 @@ Payload de cadastro.
 }
 ```
 
-Após isso a requisição passa por uma validação utilizando a classe `UserStoreRequest.php` para fazer a validação de entrada de dados e garantir que todas as informações sejam enviadas corretamente.
+Após isso a requisição passa por uma validação utilizando a classe `UserStoreRequest.php` para fazer a validação de entrada de dados e garantir que todas as informações sejam enviadas corretamente. 
 
 Após isso, será retornado o payload contendo as informações do usuário e o ID registrado.
 
@@ -115,3 +115,136 @@ Após isso, dentro do controller a senha é verificada com o registro relacionad
 ```
 
 Este token deve ser usado para as demais requisições do sistema para acessar recursos como a criação de notícias.
+
+## Fluxo das Notícias
+
+### Buscar Notícias
+
+Para buscar informações sobre notícias deve ser enviado uma requisição `GET /api/articles` e no cabeçalho deve estar com o token de autorização.
+
+Exemplo de requisição.
+
+```bash
+GET /api/articles
+```
+
+Headers obrigatórios.
+
+```http
+Authorization: Bearer <token>
+Accept: application/json
+```
+
+A requisição se bem sucedida irá retornar um payload como este.
+
+```json
+{
+
+	"data": [
+	{
+		"id": 1,
+		"title": "Notícia do Dia",
+		"content": "Contéudo da notícia",
+		"author": "Alex Adams",
+		"created_at": "2025-08-19T17:13:14.000000Z",
+		"updated_at": "2025-08-19T17:13:14.000000Z"
+	}
+	],
+	"links": {
+		"first": "http://localhost:8000/api/articles?page=1",
+		"last": "http://localhost:8000/api/articles?page=1",
+		"prev": null,
+		"next": null
+	},
+	"meta": {
+		"current_page": 1,
+		"from": 1,
+		"last_page": 1,
+		"links": [
+		{
+			"url": null,
+			"label": "&laquo; Previous",
+			"page": null,
+			"active": false
+		},
+		{
+			"url": "http://localhost:8000/api/articles?page=1",
+			"label": "1",
+			"page": 1,
+			"active": true
+		},
+		{
+			"url": null,
+			"label": "Next &raquo;",
+			"page": null,
+			"active": false
+		}
+	],
+	"path": "http://localhost:8000/api/articles",
+	"per_page": 15,
+	"to": 1,
+	"total": 1
+	}
+}
+```
+
+### Busca Única
+
+Para buscar uma notícia apenas, basta informar o ID na requisição.
+
+Exemplo de requisição.
+
+```bash
+GET /api/articles/1
+```
+
+Headers obrigatórios.
+
+```http
+Authorization: Bearer <token>
+Accept: application/json
+```
+
+O payload devolvido caso exista o registro.
+
+```json
+{
+	"data": {
+		"id": 1,
+		"title": "Notícia do Dia",
+		"content": "Contéudo da notícia",
+		"author": "Alex Adams",
+		"created_at": "2025-08-19T17:13:14.000000Z",
+		"updated_at": "2025-08-19T17:13:14.000000Z"
+	}
+}
+```
+
+### Criar notícia
+
+Para criar uma nova notícia você deve enviar a requisição para `POST /api/articles` com o seguinte payload.
+
+```json
+{
+	"title" : "Título da notícia",
+	"content" : "Contéudo da Notícia"
+}
+```
+
+>Aviso: o cabeçalho deve conter o token de autorização como as requisições anteriores.
+
+Após isso será registrado uma nova notícia no banco e irá retornar o seguinte payload.
+
+```json
+{
+	"data": {
+		"id": 1,
+		"title": "Título da notícia",
+		"content": "Contéudo da Notícia",
+		"author": "Alex Adams",
+		"created_at": "2025-08-19T17:21:42.000000Z",
+		"updated_at": "2025-08-19T17:21:42.000000Z"
+	},
+	"message": "Notícia criada com sucesso."
+}
+```
