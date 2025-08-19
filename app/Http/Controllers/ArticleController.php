@@ -69,13 +69,19 @@ class ArticleController extends Controller
     public function show(string $id): ArticleResource | JsonResponse
     {
         try{
-            $article = Article::findOrFail($id);
+            $article = $this->articleService->findById($id);
             return new ArticleResource($article);
         }catch(ModelNotFoundException){
             return response()
                 ->json([
-                    'message' => 'Article not found'
+                    'message' => 'Nenhum registro encontrado.'
             ], 404);
+        }catch(Exception $e){
+            $this->logger->error($e->getMessage());
+            return response()
+                ->json([
+                    'message' => 'Houve um erro interno no servidor, tente novamente mais tarde'
+                ], 500);
         }
     }
 

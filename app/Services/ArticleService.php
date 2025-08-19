@@ -27,4 +27,11 @@ class ArticleService
 
         return $article;
     }
+
+    public function findById(string $id): Article
+    {
+        $article = Article::findOrFail($id);
+
+        return $article;
+    }
 }
