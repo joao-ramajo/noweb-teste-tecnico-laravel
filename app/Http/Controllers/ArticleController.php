@@ -6,12 +6,14 @@ use App\Http\Requests\ArticleController\ArticleStoreRequest;
 use App\Http\Requests\ArticleController\ArticleUpdateRequest;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class ArticleController extends Controller
 {
@@ -59,19 +61,26 @@ class ArticleController extends Controller
      */
     public function update(ArticleUpdateRequest $request, string $id)
     {
-        $article = Article::findOrFail($id);
-        Gate::authorize('update', $article);
+        try{
+            $article = Article::findOrFail($id);
+            Gate::authorize('update', $article);
 
-        $article->title = $request->input('title');
-        $article->content = $request->input('content');
+            $article->title = $request->input('title');
+            $article->content = $request->input('content');
 
-        $article->save();
+            $article->save();
 
-        return response()
-            ->json([
-                'message' => 'Noticia atualizada com sucesso.',
-                'data' => new ArticleResource($article)
-        ]);
+            return response()
+                ->json([
+                    'message' => 'Noticia atualizada com sucesso.',
+                    'data' => new ArticleResource($article)
+            ]);
+        }catch(AuthorizationException $e){
+            return response()
+                ->json([
+                    'message' => 'Sem autorização para esta ação'
+                ], 403);
+        }
     }
 
     /**
