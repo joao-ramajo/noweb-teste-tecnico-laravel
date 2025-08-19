@@ -22,8 +22,18 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|',
+            'email' => 'required|email|exists:users,email',
             'password' => 'required|'
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'O email é obrigatório.',
+            'email.email' => 'O email deve estar em um formato válido',
+            'email.exists' => 'Usuário ou senha incorretos | Email nao existe',
+            'password.required' => 'A senha é obrigatória'
         ];
     }
 }
