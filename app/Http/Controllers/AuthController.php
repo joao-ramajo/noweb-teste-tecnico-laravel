@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthController\LoginRequest;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use InvalidArgumentException;
@@ -28,7 +29,7 @@ class AuthController extends Controller
                 ->json([
                     'token' => $token
                 ]);
-        }catch(InvalidArgumentException $e){
+        }catch(ModelNotFoundException $e){
             return response()
                 ->json([
                     'message' => $e->getMessage()
