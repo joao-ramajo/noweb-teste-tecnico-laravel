@@ -14,17 +14,14 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         try{
-            // busca usuario
             $user = User::where('email', $request->input('email'))->firstOrFail();
 
-            // validar senha
             if(!Hash::check($request->password, $user->password)){
                 throw new InvalidArgumentException('Email ou senha incorretos.');
             }
-            // gerar token
+
             $token = $user->createToken($user->email)->plainTextToken;
 
-            // retorna token
             return response()
                 ->json([
                     'token' => $token

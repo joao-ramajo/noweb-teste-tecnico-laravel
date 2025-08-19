@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Article extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = ['user_id', 'title', 'content'];
 
     public function user(): BelongsTo

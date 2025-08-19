@@ -8,8 +8,7 @@ class LogService
 {
     public function __construct(
         private string $channel
-    )
-    {}
+    ){}
 
     public function error(string $message): void
     {

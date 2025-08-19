@@ -20,8 +20,7 @@ class ArticleController extends Controller
     public function __construct(
         private ArticleService $articleService,
         private LogService $logger
-    )
-    {}
+    ){}
 
     public function index(): AnonymousResourceCollection | JsonResponse
     {
