@@ -6,15 +6,14 @@ O projeto conta com um CRUD completo para notícias nomeadas `articles` e o cada
 
 # Sumário
 
-- [Descrição do Projeto](#descrição-do-projeto)
 - [Tecnologias](#tecnologias)
 - [Instalação](#instalação)
-  - [Clone do Repositório](#clone-do-repositório)
-  - [Instalação de Dependências](#instalação-de-dependências)
-  - [Configuração do Banco de Dados](#configuração-do-banco-de-dados)
-  - [Subindo o Docker](#subindo-o-docker)
+  - [Clone do Repositório](#clone-o-repositório)
+  - [Instalação de Dependências](#instale-as-dependências-e-gere-a-chave-de-acesso-do-laravel)
+  - [Configuração do Banco de Dados](#configure-o-acesso-ao-banco-de-dados-em-env)
+  - [Subindo o Docker](#suba-o-docker-compose)
   - [Rode as Migrations](#rode-as-migrations)
-  - [Iniciando o Servidor](#iniciando-o-servidor)
+  - [Iniciando o Servidor](#inicie-o-servidor-do-projeto)
 - [Fluxo do Usuário](#fluxo-do-usuário)
   - [Cadastro](#cadastro)
   - [Login](#login)
@@ -22,12 +21,15 @@ O projeto conta com um CRUD completo para notícias nomeadas `articles` e o cada
   - [Buscar Notícias](#buscar-notícias)
   - [Busca Única](#busca-única)
   - [Criar Notícia](#criar-notícia)
-  - [Atualizar Notícia](#atualizar-notícia)
-  - [Deletar Notícia](#deletar-notícia)
+  - [Atualizar Notícias](#atualizar-notícias)
+  - [Apagar Notícia](#apagar-notícia)
 - [Tabela de Rotas](#tabela-de-rotas)
 - [Testes](#testes)
-  - [Como Rodar](#como-rodar)
+  - [Como Rodar](#como-rodar-os-testes)
   - [O que será Testado](#o-que-será-testado)
+- [Autenticação](#autenticação)
+- [Autorização](#autorização)
+
 
 ## Tecnologias
 
@@ -94,7 +96,7 @@ Após isso a aplicação estará rodando em `http://localhost:8000/api`
 
 ### Cadastro
 
-O usuário envia uma requisição `POST /users` para cadastrar suas informações e gerar um token de acesso. 
+O usuário envia uma requisição `POST /users` para cadastrar suas informações e gerar um token de acesso.
 
 Payload de cadastro.
 
@@ -318,6 +320,31 @@ Caso aconteça tudo corretamente será devolvido o seguinte payload.
 }
 ```
 
+### Apagar Notícia
+
+Para apagar uma notícia você deve enviar uma requisição para `DELETE /api/articles/{id}` passando o ID da notícia.
+
+Exemplo de requisição.
+
+```bash
+DELETE /api/articles/1
+```
+
+Headers obrigatórios.
+
+```http
+Authorization: Bearer <token>
+Accept: application/json
+```
+
+Após isso a autorização será gerenciada por um Gate que irá verificar se o a requisição pode acontecer, caso sim o registro vai ser apagado do banco de dados e retornará o seguinte payload.
+
+```json
+{
+    "message": "Noticia apagada com sucesso."
+}
+```
+
 
 ## Tabela de Rotas
 
@@ -350,3 +377,11 @@ php artisan test
 - Login e geração de token
 - Criação, leitura, atualização e exclusão de notícias
 - Restrições de acesso via autenticação
+
+## Autenticação
+
+A autenticação é feita pelo middleware disponibilizado pela biblioteca `Sanctum`utilizando tokens para verificação nas requisições.
+
+## Autorização
+
+A autorização para criação, edição e apagar notícias é feita atrâves de Policies configuradas em `ArticlePolicy.php`.
