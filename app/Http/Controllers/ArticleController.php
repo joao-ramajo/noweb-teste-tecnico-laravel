@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -39,9 +40,17 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): ArticleResource | JsonResponse
     {
-        //
+        try{
+            $article = Article::findOrFail($id);
+            return new ArticleResource($article);
+        }catch(ModelNotFoundException){
+            return response()
+                ->json([
+                    'message' => 'Article not found'
+            ], 404);
+        }
     }
 
     /**
