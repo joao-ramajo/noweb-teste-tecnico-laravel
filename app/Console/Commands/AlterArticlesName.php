@@ -46,9 +46,11 @@ class AlterArticlesName extends Command
             $new_names = Article::pluck('title');
 
             $this->line('Nome Antigo | Novo Nome ');
+
             for($i = 0; $i < $articles_count; $i++){
                 $this->line("{$old_names[$i]} -> {$new_names[$i]}");
             }
+
             $this->info(PHP_EOL);
             $this->info('Registros alterados com sucesso !');
             $this->line('Os registros gerados por este comando não se mantém no banco para evitar um acumulo de registros desnecessários');
