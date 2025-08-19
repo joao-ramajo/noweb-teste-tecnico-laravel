@@ -29,11 +29,11 @@ class AuthController extends Controller
                 ->json([
                     'token' => $token
                 ]);
-        }catch(ModelNotFoundException $e){
+        }catch(InvalidArgumentException $e){
             return response()
                 ->json([
                     'message' => $e->getMessage()
-                ], 404);
+                ], 401);
         }
     }
 }
