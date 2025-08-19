@@ -7,6 +7,7 @@ use App\Http\Requests\ArticleController\ArticleUpdateRequest;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use App\Services\ArticleService;
+use App\Services\LogService;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -25,7 +26,8 @@ class ArticleController extends Controller
      */
 
     public function __construct(
-        private ArticleService $articleService
+        private ArticleService $articleService,
+        private LogService $logger
     )
     {}
 
@@ -35,7 +37,7 @@ class ArticleController extends Controller
             $articles = $this->articleService->getAll();
             return ArticleResource::collection($articles);
         }catch(Exception $e){
-            // Log::error($e->getMessage());
+            $this->logger->error('teste');
             return response()
                 ->json([
                     'message' => 'Houve um erro interno no servidor, tente novamente mais tarde'
