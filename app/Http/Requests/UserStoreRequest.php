@@ -24,19 +24,19 @@ class UserStoreRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed',
-            // 'password_confirm' => 'required'
+            'password' => 'required|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'O nome é obrigatório',
-            'email.required' => 'O email é obrigatório',
-            'email.unique' => 'Email não disponível',
-            'password.required' => 'A senha é obrigatória',
-            'password.confirmed' => 'As senhas devem ser iguais'
+            'name.required' => 'O nome é obrigatório.',
+            'email.required' => 'O email é obrigatório.',
+            'email.unique' => 'Email não disponível.',
+            'password.required' => 'A senha é obrigatória.',
+            'password.confirmed' => 'As senhas devem ser iguais.',
+            'password.regex' => 'A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um número.'
         ];
     }
 }
