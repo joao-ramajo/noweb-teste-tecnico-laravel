@@ -5,16 +5,14 @@ namespace App\Services;
 use App\Http\Requests\ArticleController\ArticleStoreRequest;
 use App\Http\Requests\ArticleController\ArticleUpdateRequest;
 use App\Models\Article;
-use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use InvalidArgumentException;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ArticleService
 {
-    public function getAll()
+    public function getAll(): LengthAwarePaginator
     {
         $articles = Article::with('user')->paginate(15);
-        throw new InvalidArgumentException('erro');
+
         return $articles;
     }
 
