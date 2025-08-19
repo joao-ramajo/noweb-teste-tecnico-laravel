@@ -37,7 +37,7 @@ class ArticleController extends Controller
             $articles = $this->articleService->getAll();
             return ArticleResource::collection($articles);
         }catch(Exception $e){
-            $this->logger->error('teste');
+            $this->logger->error($e->getMessage());
             return response()
                 ->json([
                     'message' => 'Houve um erro interno no servidor, tente novamente mais tarde'
@@ -48,15 +48,19 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ArticleStoreRequest $request)
+    public function store(ArticleStoreRequest $request): ArticleResource | JsonResponse
     {
-        $article = Article::create([
-            'user_id' => $request->user()->id,
-            'title' => $request->input('title'),
-            'content' => $request->input('content')
-        ]);
+        try{
+            $article = $this->articleService->save($request);
 
-        return new ArticleResource($article);
+            return new ArticleResource($article);
+        }catch(Exception $e){
+            $this->logger->error($e->getMessage());
+            return response()
+                ->json([
+                    'message' => 'Houve um erro interno no servidor, tente novamente mais tarde'
+                ], 500);
+        }
     }
 
     /**

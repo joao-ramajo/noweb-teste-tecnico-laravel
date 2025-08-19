@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Http\Requests\ArticleController\ArticleStoreRequest;
 use App\Models\Article;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use InvalidArgumentException;
 
 class ArticleService
@@ -13,5 +15,16 @@ class ArticleService
         $articles = Article::with('user')->paginate(15);
         throw new InvalidArgumentException('erro');
         return $articles;
+    }
+
+    public function save(ArticleStoreRequest $request): Article
+    {
+        $article = Article::create([
+            'user_id' => $request->user()->id,
+            'title' => $request->input('title'),
+            'content' => $request->input('content')
+        ]);
+
+        return $article;
     }
 }
