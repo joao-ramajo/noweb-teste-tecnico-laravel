@@ -6,6 +6,8 @@ use App\Http\Requests\ArticleController\ArticleStoreRequest;
 use App\Http\Requests\ArticleController\ArticleUpdateRequest;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
+use App\Services\ArticleService;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
@@ -13,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class ArticleController extends Controller
@@ -20,10 +23,24 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): AnonymousResourceCollection
+
+    public function __construct(
+        private ArticleService $articleService
+    )
+    {}
+
+    public function index(): AnonymousResourceCollection | JsonResponse
     {
-        $articles = Article::with('user')->paginate(5);
-        return ArticleResource::collection($articles);
+        try{
+            $articles = $this->articleService->getAll();
+            return ArticleResource::collection($articles);
+        }catch(Exception $e){
+            // Log::error($e->getMessage());
+            return response()
+                ->json([
+                    'message' => 'Houve um erro interno no servidor, tente novamente mais tarde'
+                ], 500);
+        }
     }
 
     /**
