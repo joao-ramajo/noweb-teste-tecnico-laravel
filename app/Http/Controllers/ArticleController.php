@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleController\ArticleStoreRequest;
+use App\Http\Requests\ArticleController\ArticleUpdateRequest;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -20,14 +21,6 @@ class ArticleController extends Controller
     {
         $articles = Article::with('user')->paginate(5);
         return ArticleResource::collection($articles);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -61,19 +54,22 @@ class ArticleController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ArticleUpdateRequest $request, string $id)
     {
-        //
+        $article = Article::findOrFail($id);
+
+        $article->title = $request->input('title');
+        $article->content = $request->input('content');
+
+        $article->save();
+
+        return response()
+            ->json([
+                'message' => 'Noticia atualizada com sucesso.',
+                'data' => new ArticleResource($article)
+        ]);
     }
 
     /**
