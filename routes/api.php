@@ -19,4 +19,4 @@ Route::prefix('articles')->group(function() {
     Route::get('/', [ArticleController::class, 'index'])->name('articles.index');
 });
 
-Route::apiResource('articles', ArticleController::class);
+Route::apiResource('articles', ArticleController::class)->middleware(['auth:sanctum']);

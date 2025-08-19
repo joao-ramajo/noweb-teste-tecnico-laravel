@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ArticleController\ArticleStoreRequest;
 use App\Http\Resources\ArticleResource;
 use App\Models\Article;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -32,9 +33,15 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ArticleStoreRequest $request)
     {
-        //
+        $article = Article::create([
+            'user_id' => $request->user()->id,
+            'title' => $request->input('title'),
+            'content' => $request->input('content')
+        ]);
+
+        return new ArticleResource($article);
     }
 
     /**
