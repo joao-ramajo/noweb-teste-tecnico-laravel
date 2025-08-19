@@ -22,7 +22,7 @@ class ArticleStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
+            'title' => 'required|unique:articles,title',
             'content' => 'required'
         ];
     }
@@ -31,6 +31,8 @@ class ArticleStoreRequest extends FormRequest
     {
         return [
             'title.required' => 'O titúlo é obrigatório',
+            'title.unique' => 'Este titúlo não está disponivel',
+
             'content.required' => 'A notícia não pode estar vazia'
         ];
     }
