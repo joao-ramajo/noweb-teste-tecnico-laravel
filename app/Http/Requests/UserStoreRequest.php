@@ -22,21 +22,28 @@ class UserStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+            'name' => 'required|max:50',
+            'email' => 'required|max:50|email|unique:users,email',
+            'password' => 'required|max:12|min:6|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
         ];
     }
 
     public function messages(): array
     {
-        return [
+         return [
             'name.required' => 'O nome é obrigatório.',
+            'name.max' => 'O nome não pode ter mais de 50 caracteres.',
+
             'email.required' => 'O email é obrigatório.',
+            'email.email' => 'O email deve ser válido.',
+            'email.max' => 'O email não pode ter mais de 50 caracteres.',
             'email.unique' => 'Email não disponível.',
+
             'password.required' => 'A senha é obrigatória.',
+            'password.min' => 'A senha deve ter no mínimo 6 caracteres.',
+            'password.max' => 'A senha deve ter no máximo 12 caracteres.',
             'password.confirmed' => 'As senhas devem ser iguais.',
             'password.regex' => 'A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e um número.'
-        ];
+    ];
     }
 }
