@@ -34,10 +34,20 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         // cria usuario
-        
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = $request->input('password');
+
         // salva usuario
+        $user->save();
 
         // retorna usuario e mensagem
+        return response()
+            ->json([
+                'message' => 'Usuário criado com sucesso',
+                'data' => $user->toArray()
+            ], 201);
     }
 
     /**
