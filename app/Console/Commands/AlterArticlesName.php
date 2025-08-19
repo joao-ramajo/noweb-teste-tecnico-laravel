@@ -6,6 +6,7 @@ use App\Models\Article;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
 
 class AlterArticlesName extends Command
 {
@@ -29,8 +30,12 @@ class AlterArticlesName extends Command
     public function handle()
     {
         try{
-            Article::factory()->count(10)->create();
+            // Article::factory()->count(10)->create();
             $articles_count = Article::all()->count();
+
+            if($articles_count == 0){
+                throw new InvalidArgumentException('Sem registros para alterar');
+            }
 
             $message = str_repeat('=', 40) . PHP_EOL;
             $message .= "   ALTERANDO NOME DE $articles_count REGISTROS" . PHP_EOL;
@@ -54,7 +59,7 @@ class AlterArticlesName extends Command
             $this->info(PHP_EOL);
             $this->info('Registros alterados com sucesso !');
             $this->line('Os registros gerados por este comando não se mantém no banco para evitar um acumulo de registros desnecessários');
-            DB::table('articles')->delete();
+            // DB::table('articles')->delete();
         }catch(Exception $e){
             $this->warn('Erro de execução: ' . $e->getMessage());
         }

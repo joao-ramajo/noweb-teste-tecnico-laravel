@@ -21,6 +21,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('Aa123123')
         ]);
 
-        Article::factory(20)->create();
+        Article::factory()->count(20)->create();
     }
 }
