@@ -4,6 +4,16 @@ Este projeto tem como objetivo o desenvolvimento de uma API REST para gerenciame
 
 O projeto conta com um CRUD completo para notícias nomeadas `articles` e o cadastro e login de usuário.
 
+### Artisan Command
+
+O comando para alterar o nome de todos os registros para 'noweb' é.
+
+```bash
+php artisan articles:name
+```
+
+Caso não tenha nenhum registro ele não realiza nenhuma operação.
+
 # Sumário
 
 - [Tecnologias](#tecnologias)
