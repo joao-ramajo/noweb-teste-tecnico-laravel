@@ -83,7 +83,13 @@ docker compose up -d
 ### Rode as migrations
 ```
 php artisan migrate
+# ou rode com o seeder
+php artisan migrate --seed
 ```
+O seeder está configurado para gerar 20 notícias e um usuário com os acessos.
+
+Email: admin@gmail.com
+Senha: Aa123123
 
 ### Inicie o servidor do projeto
 
