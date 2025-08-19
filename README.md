@@ -4,6 +4,31 @@ Este projeto tem como objetivo o desenvolvimento de uma API REST para gerenciame
 
 O projeto conta com um CRUD completo para notícias nomeadas `articles` e o cadastro e login de usuário.
 
+# Sumário
+
+- [Descrição do Projeto](#descrição-do-projeto)
+- [Tecnologias](#tecnologias)
+- [Instalação](#instalação)
+  - [Clone do Repositório](#clone-do-repositório)
+  - [Instalação de Dependências](#instalação-de-dependências)
+  - [Configuração do Banco de Dados](#configuração-do-banco-de-dados)
+  - [Subindo o Docker](#subindo-o-docker)
+  - [Rode as Migrations](#rode-as-migrations)
+  - [Iniciando o Servidor](#iniciando-o-servidor)
+- [Fluxo do Usuário](#fluxo-do-usuário)
+  - [Cadastro](#cadastro)
+  - [Login](#login)
+- [Fluxo das Notícias](#fluxo-das-notícias)
+  - [Buscar Notícias](#buscar-notícias)
+  - [Busca Única](#busca-única)
+  - [Criar Notícia](#criar-notícia)
+  - [Atualizar Notícia](#atualizar-notícia)
+  - [Deletar Notícia](#deletar-notícia)
+- [Tabela de Rotas](#tabela-de-rotas)
+- [Testes](#testes)
+  - [Como Rodar](#como-rodar)
+  - [O que será Testado](#o-que-será-testado)
+
 ## Tecnologias
 
 - Laravel 12 
@@ -82,7 +107,7 @@ Payload de cadastro.
 }
 ```
 
-Após isso a requisição passa por uma validação utilizando a classe `UserStoreRequest.php` para fazer a validação de entrada de dados e garantir que todas as informações sejam enviadas corretamente. 
+Após isso a requisição passa por uma validação utilizando a classe `UserStoreRequest.php` para fazer a validação de entrada de dados e garantir que todas as informações sejam enviadas corretamente.
 
 Após isso, será retornado o payload contendo as informações do usuário e o ID registrado.
 
@@ -90,11 +115,11 @@ Após isso, será retornado o payload contendo as informações do usuário e o 
 {
 	"message": "Usuário criado com sucesso",
 	"data": {
-	"name": "joao",
-	"email": "joao@gmail.comd",
-	"updated_at": "2025-08-19T16:45:44.000000Z",
-	"created_at": "2025-08-19T16:45:44.000000Z",
-	"id": 2
+        "name": "joao",
+        "email": "joao@gmail.comd",
+        "updated_at": "2025-08-19T16:45:44.000000Z",
+        "created_at": "2025-08-19T16:45:44.000000Z",
+        "id": 2
 	}
 }
 ```
@@ -249,6 +274,50 @@ Após isso será registrado uma nova notícia no banco e irá retornar o seguint
 }
 ```
 
+### Atualizar Notícias
+
+Para atualizar a notícia deve ser enviado como parametro da requisição o ID da notícia que deseja alterar.
+
+Exemplo de requisição.
+
+```bash
+PUT /api/articles/1
+```
+
+Headers obrigatórios.
+
+```http
+Authorization: Bearer <token>
+Accept: application/json
+```
+
+O payload para atualização deve ser.
+
+```json
+{
+	"title" : "Novo Título da notícia",
+	"content" : "Novo Contéudo da Notícia"
+}
+```
+
+Caso aconteça tudo corretamente será devolvido o seguinte payload.
+
+```json
+{
+    "message" : "Noticia atualizada com sucesso.",
+    "data" : {
+        "title" : {
+            "id": 1,
+            "title": "Novo Título da notícia",
+            "content": "Novo Contéudo da Notícia",
+            "author": "Alex Adams",
+            "created_at": "2025-08-19T17:13:14.000000Z",
+            "updated_at": "2025-08-19T17:41:42.000000Z"
+        }
+    }
+}
+```
+
 
 ## Tabela de Rotas
 
@@ -266,7 +335,7 @@ Após isso será registrado uma nova notícia no banco e irá retornar o seguint
 
 Os testes foram feitos de maneira a testar o fluxo completo da aplicação, por se tratar de lógicas simples e sem grande necessidade de diversas regras de negocio, optei por desenvolver testes de integração.
 
-Para os requisitos do projeto adicionar camadas de complexidade maiores não faria sentido, assim causando um forte acoplamento com o Eloquent que já é testado pelo próprio Laravel, sendo assim testes de integração para garantir que o fluxo está funcionando faz muito mais sentidos do que diversos testes de unidade.
+Para os requisitos do projeto adicionar camadas de complexidade maiores não faria sentido, assim causando um forte acoplamento com o Eloquent que já é testado pelo próprio Laravel, sendo assim optei por testes de integração para garantir que o fluxo está funcionando faz mais sentido do que diversos testes de unidade.
 
 ### Como rodar os testes
 
