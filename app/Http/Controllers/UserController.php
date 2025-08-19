@@ -11,9 +11,7 @@ class UserController extends Controller
     public function index()
     {
         return response()
-            ->json([
-                'data' => User::all()->toArray()
-            ], 200);
+            ->json(User::paginate(10), 200);
     }
 
     public function store(UserStoreRequest $request)

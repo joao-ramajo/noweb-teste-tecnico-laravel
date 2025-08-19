@@ -1,8 +1,9 @@
 # Vaga de Desenvolvedor (Back-End + API)
 
-Este README tem como objetivo documentar o desenvolvimento de uma API como teste técnico para a vaga de desenvolvedor Backend na empresa NoWeb.
+Este projeto tem como objetivo o desenvolvimento de uma API REST para gerenciamento de notícias e validação de usuário.
 
-## Tecnologias
-- Laravel 12
-- Sanctum
-- MySQL
+O projeto conta com um CRUD completo para notícias nomeadas `articles` e o cadastro e login de usuário.
+
+## Segurança
+
+O projeto utiliza a biblioteca **Sanctum** para gerir a autenticação do consumo dessa API atrâves

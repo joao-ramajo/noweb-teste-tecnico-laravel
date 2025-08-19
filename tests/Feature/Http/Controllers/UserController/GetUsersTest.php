@@ -19,12 +19,21 @@ it('denied access from unauthorized access', function() {
 });
 
 it('has return a list of users', function() {
+    User::factory()->count(3)->create();
+
     Sanctum::actingAs($this->user);
 
     $response = $this->getJson('/api/users');
 
     $response->assertStatus(200);
 
-    expect($response['data'])
-        ->toBeArray();
+    $response
+        ->assertStatus(200)
+        ->assertJsonStructure([
+            'data' => [
+                '*' => ['id', 'name', 'email'],
+            ],
+            'links',
+        ])
+        ->assertJsonCount(4, 'data');
 });
