@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class ArticleController extends Controller
 {
@@ -59,6 +60,7 @@ class ArticleController extends Controller
     public function update(ArticleUpdateRequest $request, string $id)
     {
         $article = Article::findOrFail($id);
+        Gate::authorize('update', $article);
 
         $article->title = $request->input('title');
         $article->content = $request->input('content');
