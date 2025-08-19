@@ -11,4 +11,5 @@ Route::get('/user', function (Request $request) {
 // Route::resource('/users', [UserController::class]);
 Route::prefix('users')->group(function() {
     Route::get('/', [UserController::class, 'index'])->name('users.index');
+    Route::post('/', [UserController::class, 'store'])->name('users.store');
 });

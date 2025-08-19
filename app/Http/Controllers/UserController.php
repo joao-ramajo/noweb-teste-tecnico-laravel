@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class UserController extends Controller
         return response()
             ->json([
                 'data' => User::all()->toArray()
-            ]);
+            ], 200);
         //
     }
 
@@ -30,9 +31,13 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        //
+        // cria usuario
+        
+        // salva usuario
+
+        // retorna usuario e mensagem
     }
 
     /**
