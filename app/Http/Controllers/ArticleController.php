@@ -14,9 +14,7 @@ class ArticleController extends Controller
     public function index(): JsonResponse
     {
         return response()
-            ->json([
-                'data' => Article::all()->toArray()
-            ]);
+            ->json(Article::with('user')->paginate(5));
     }
 
     /**

@@ -23,6 +23,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('Aa123123')
         ]);
 
-        Article::factory(1)->create();
+        Article::factory(20)->create();
     }
 }
