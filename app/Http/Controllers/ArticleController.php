@@ -41,7 +41,10 @@ class ArticleController extends Controller
         try{
             $article = $this->articleService->save($request);
 
-            return new ArticleResource($article);
+            return (new ArticleResource($article))
+                ->additional([
+                    'message' => 'Notícia criada com sucesso.'
+                ]);
         }catch(Exception $e){
             $this->logger->error($e->getMessage());
             return response()
