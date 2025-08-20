@@ -1,8 +1,10 @@
-# Vaga de Desenvolvedor (Back-End + API)
+# API REST - Laravel
 
 Este projeto tem como objetivo o desenvolvimento de uma API REST para gerenciamento de notícias e validação de usuário.
 
 O projeto conta com um CRUD completo para notícias nomeadas `articles` e o cadastro e login de usuário.
+
+Desenvolvido utilizando o framework Laravel 12.
 
 ### Artisan Command
 

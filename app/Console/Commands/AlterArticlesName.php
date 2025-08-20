@@ -27,7 +27,7 @@ class AlterArticlesName extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         try{
             // Article::factory()->count(10)->create();

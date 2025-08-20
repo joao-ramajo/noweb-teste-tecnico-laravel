@@ -73,7 +73,7 @@ class ArticleController extends Controller
         }
     }
 
-    public function update(ArticleUpdateRequest $request, string $id)
+    public function update(ArticleUpdateRequest $request, string $id): JsonResponse
     {
         try{
             $article = $this->articleService->findById($id);
@@ -106,7 +106,7 @@ class ArticleController extends Controller
         }
     }
 
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
         try{
             $article = $this->articleService->findById($id);
