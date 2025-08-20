@@ -115,7 +115,7 @@ Após isso a aplicação estará rodando em `http://localhost:8000/api`
 
 ### Cadastro
 
-O usuário envia uma requisição `POST /users` para cadastrar suas informações e gerar um token de acesso.
+O usuário envia uma requisição `POST /api/users` para cadastrar suas informações e gerar um token de acesso.
 
 Payload de cadastro.
 
